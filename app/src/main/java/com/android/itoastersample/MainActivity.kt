@@ -17,13 +17,14 @@ class MainActivity : AppCompatActivity() {
             .with(this@MainActivity)
             .message("Hello Kotlin")
             .textColor(Color.WHITE)
-            .backgroundColor(Color.BLUE)
+            .backgroundColor(Color.DKGRAY)
             .duration(1)
             .isShowInDebugModeOnly(Is_Test_Build)
-            .gravity(Gravity.BOTTOM)
+            .gravity(Gravity.CENTER)
             .icon(R.drawable.ic_baseline_info_24)
             .show()
 
+        Toaster.with(this@MainActivity).message("hey").show()
 
     }
 

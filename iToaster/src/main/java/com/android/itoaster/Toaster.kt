@@ -1,17 +1,13 @@
 package com.android.itoaster
 
 import android.app.Activity
-import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.Typeface
-import android.util.Log
 import android.view.Gravity
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.CheckResult
 import org.jetbrains.annotations.NotNull
-import java.time.Duration
 
 object Toaster {
 
@@ -20,13 +16,14 @@ object Toaster {
     private var mTextColor          = Color.WHITE
     private var mBackColor          = Color.LTGRAY
     private lateinit var mToast     : Toast
-    private var mGravity            = Gravity.CENTER
+    private var mGravity            = Gravity.CENTER_HORIZONTAL
     private var isTestBuild         = true
     private lateinit var mMessage   : String
 
     private lateinit var mActivity  : Activity
 
     @NotNull
+    @CheckResult
     fun with(activity: Activity): Toaster {
         mActivity = activity
         return this
@@ -91,8 +88,20 @@ object Toaster {
                     mToast.show()
                 }
 
+                reset()
             }
 
+    }
+
+    private fun reset() {
+        mIcon       = 0
+        mDuration   = Toast.LENGTH_LONG
+        mTextColor  = Color.WHITE
+        mBackColor  = Color.DKGRAY
+
+        mGravity    = Gravity.CENTER_HORIZONTAL
+        isTestBuild = true
+        mMessage    = ""
     }
 
 }
