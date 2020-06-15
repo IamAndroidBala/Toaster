@@ -17,9 +17,13 @@ class MainActivity : AppCompatActivity() {
             .with(this@MainActivity)
             .message("Hello Kotlin")
             .textColor(Color.WHITE)
-            .backgroundColor(Color.GRAY)
+            .backgroundColor(Color.BLUE)
             .duration(1)
+            .isShowInDebugModeOnly(Is_Test_Build)
+            .gravity(Gravity.BOTTOM)
+            .icon(R.drawable.ic_baseline_info_24)
             .show()
+
 
     }
 

@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.util.Log
+import android.view.Gravity
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.CheckResult
@@ -14,13 +15,18 @@ import java.time.Duration
 
 object Toaster {
 
-    lateinit var mActivity : Activity
-    lateinit var mMessage : String
-    var mDuration : Int = 1
-    var mTextColor : Int = Color.WHITE
-    var mBackColor : Int = Color.LTGRAY
-    lateinit var mToast: Toast
+    private  var mIcon              = 0
+    private var mDuration           = Toast.LENGTH_LONG
+    private var mTextColor          = Color.WHITE
+    private var mBackColor          = Color.LTGRAY
+    private lateinit var mToast     : Toast
+    private var mGravity            = Gravity.CENTER
+    private var isTestBuild         = true
+    private lateinit var mMessage   : String
 
+    private lateinit var mActivity  : Activity
+
+    @NotNull
     fun with(activity: Activity): Toaster {
         mActivity = activity
         return this
@@ -46,23 +52,46 @@ object Toaster {
         return this
     }
 
+    fun isShowInDebugModeOnly(isDebugBuild: Boolean) : Toaster {
+        isTestBuild = isDebugBuild
+        return this
+    }
+
+    fun gravity(gravity: Int) : Toaster {
+        mGravity = gravity
+        return this
+    }
+
+    fun icon(icon: Int): Toaster {
+        mIcon = icon
+        return this
+    }
+
     fun show() {
 
-        mActivity.runOnUiThread {
+        if (isTestBuild)
+            mActivity.runOnUiThread {
 
-            mToast = Toast.makeText(mActivity.applicationContext, mMessage, mDuration)
+                mToast = Toast.makeText(mActivity.applicationContext, mMessage, mDuration)
+                mToast.setGravity(  mGravity,0,0)
 
-            val view = mToast.view
-            view.background.setColorFilter(mBackColor, PorterDuff.Mode.SRC_IN)
+                val view = mToast.view
+                view.background.setColorFilter(mBackColor, PorterDuff.Mode.SRC_IN)
 
-            val text = view.findViewById<TextView>(android.R.id.message)
-            text.setTextColor(mTextColor)
+                val mTextView = view.findViewById<TextView>(android.R.id.message)
+                mTextView.setTextColor(mTextColor)
+                mTextView.gravity = Gravity.CENTER
 
-            mActivity.runCatching {
-                mToast.show()
+                if(mIcon != 0) {
+                    mTextView.setCompoundDrawablesWithIntrinsicBounds(mIcon, 0, 0, 0);
+                    mTextView.compoundDrawablePadding = mActivity.resources.getDimensionPixelSize(R.dimen.padding_toast)
+                }
+
+                mActivity.runCatching {
+                    mToast.show()
+                }
+
             }
-
-        }
 
     }
 
