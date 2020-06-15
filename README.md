@@ -10,7 +10,8 @@ dependencies {
 
 <h2>Sample usage</h2>
 
-<p> Toaster
+```
+Toaster
             .with(this@MainActivity)
             .message("Hello Kotlin")
             .textColor(Color.WHITE)
@@ -20,7 +21,11 @@ dependencies {
             .gravity(Gravity.BOTTOM)
             .icon(R.drawable.ic_baseline_info_24)
             .show()
-</p>
+            
+            ```
+            
+<p>Thanks</p>
+
 
 
 
