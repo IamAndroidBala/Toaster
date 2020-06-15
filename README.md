@@ -24,7 +24,6 @@ Toaster
             
             ```
             
-<p>Thanks</p>
 
 
 
